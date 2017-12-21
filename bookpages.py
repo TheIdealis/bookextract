@@ -36,7 +36,7 @@ if args.booklet or args.cropped is True:
     form[1]=',booklet'
 
 
-f = open('/home/thomas/.local/build/tex/'+args.outfile+'.tex','w')
+f = open('~/.local/build/tex/'+args.outfile+'.tex','w')
 header = '\documentclass[paper=A4 %s, pagesize]{scrartcl}' %form[0]
 header +='''
 \usepackage{grffile}
@@ -55,23 +55,23 @@ f.write(header+middle+footer)
 f.close()
 
 
-latex = subprocess.Popen(['pdflatex', '--output-directory=/home/thomas/.local/build/tex/',
+latex = subprocess.Popen(['pdflatex', '--output-directory=~/.local/build/tex/',
                           '-halt-on-error',
                           '-interaction',
                           'nonstopmode',
-                          '/home/thomas/.local/build/tex/'+args.outfile+'.tex'], 
+                          '~/.local/build/tex/'+args.outfile+'.tex'], 
                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 stdout, stderr=latex.communicate()
 if latex.returncode:
     print 'Error ---------------------------------- last 700 characters of pdflatex\'s output'
     print stdout[-700:] 
-else: subprocess.call(['cp', '/home/thomas/.local/build/tex/'+args.outfile+'.pdf', './'])
+else: subprocess.call(['cp', '~/.local/build/tex/'+args.outfile+'.pdf', './'])
 
 
 
 ####Crop the file ###############################
 if args.cropped is True:
-    f = open('/home/thomas/.local/build/tex/'+args.outfile+'.crop'+'.tex','w')
+    f = open('~/.local/build/tex/'+args.outfile+'.crop'+'.tex','w')
     header ='''\documentclass[paper=24.7cm:17.5cm]{scrartcl}
 \usepackage{pdfpages}
 \usepackage[
@@ -89,15 +89,15 @@ if args.cropped is True:
     f.write(header+footer)
     f.close()
 
-    latex = subprocess.Popen(['pdflatex', '--output-directory=/home/thomas/.local/build/tex/',
+    latex = subprocess.Popen(['pdflatex', '--output-directory=~/.local/build/tex/',
                               '-halt-on-error',
                               '-interaction',
                               'nonstopmode',
-                              '/home/thomas/.local/build/tex/'+args.outfile+'.crop'+'.tex'], 
+                              '~/.local/build/tex/'+args.outfile+'.crop'+'.tex'], 
                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr=latex.communicate()
     if latex.returncode:
         print 'Error ---------------------------------- last 700 characters of pdflatex\'s output'
         print stdout[-700:] 
-    else: subprocess.call(['cp', '/home/thomas/.local/build/tex/'+args.outfile+'.crop'+'.pdf', './'])
+    else: subprocess.call(['cp', '~/.local/build/tex/'+args.outfile+'.crop'+'.pdf', './'])
      
